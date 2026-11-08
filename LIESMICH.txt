@@ -1,0 +1,45 @@
+SKY DASH FÜR DEN NINTENDO DS
+============================
+Ein Geometry-Dash-artiges Rhythmus-Jump-Spiel als DS-Homebrew (.nds).
+Level, Farben und Tempo kommen aus deinen Leveldateien (levels/*.txt).
+
+SO BAUST DU DIE .nds-DATEI
+--------------------------
+1. devkitPro installieren: https://devkitpro.org/wiki/Getting_Started
+   Dabei die Gruppe "nds-dev" installieren (devkitARM, libnds, ndstool).
+   - Windows: Installer starten, "NDS Development" ankreuzen
+   - Linux/Mac: dkp-pacman -S nds-dev
+2. Terminal öffnen (Windows: "MSYS2" aus dem devkitPro-Ordner), in diesen Ordner wechseln und:
+       make
+3. Fertig: es entsteht  skydash.nds
+
+Zum Ausprobieren: melonDS oder DeSmuME (Emulator), oder auf eine Flashkarte/ein
+modifiziertes DS kopieren.
+
+STEUERUNG
+---------
+A / B / X / Y / Steuerkreuz oben / Touchscreen = springen
+(gedrückt halten = immer wieder springen, beim Schiff = steigen, bei der Wave = schräg hoch)
+Menü:   Steuerkreuz = Level wählen, A = starten
+Spiel:  START = zurück ins Menü, SELECT = Neustart
+
+EIGENE LEVEL
+------------
+Levelbefehle sind dieselben wie bei der Web-Version (siehe tools/leveltool.cpp).
+1. Datei in levels/ bearbeiten oder neue anlegen
+2. build_levels.sh (Mac/Linux) oder build_levels.bat (Windows) starten
+   -> schreibt source/levels.h neu
+3. make
+
+WAS ANDERS IST ALS IM BROWSER
+-----------------------------
+- Es ist ein eigener Nachbau der Spielphysik (physics.js lag nicht bei). Sprunghöhe,
+  Schwerkraft, Schiff usw. stehen oben in source/game.h (JUMP_V, GRAV, SHIP_UP ...) und
+  lassen sich dort feinjustieren, falls sich ein Level zu schwer oder zu leicht anfühlt.
+- Die Musik wird aus den Melodien von audio.js auf den 6 Tonkanälen des DS erzeugt
+  (Rechteckwellen + Rauschen). Das klingt nach Chiptune, nicht wie die Browser-Version.
+  Klingt sie 3 Oktaven zu tief, in source/main.cpp  PSG_MUL  auf 1 setzen.
+- Kein Online-Modus, kein Übungsmodus, keine Icon-Garage, kein Speichern auf Karte
+  (Bestwerte gelten, solange das Spiel läuft).
+- Grafik ist mit Rechtecken, Kreisen und Dreiecken gezeichnet (wie im Browser), nur kleiner:
+  16 Pixel pro Block.
