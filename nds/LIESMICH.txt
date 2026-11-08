@@ -1,0 +1,63 @@
+SKY DASH DS / DSi
+=================
+Sky Dash als Nintendo-DS-Homebrew. Die Leveldateien sind dieselben wie in
+Sky-Dash.zip; der DS-Port verwendet dieselben Spielphysik-Konstanten und
+Kollisionsregeln wie skydash/js/physics.js.
+
+AUTOMATISCH AUF GITHUB ZU .nds BAUEN
+-----------------------------------
+1. Erstelle ein neues GitHub-Repository.
+2. Lade den gesamten Inhalt dieses Ordners in das Wurzelverzeichnis des
+   Repositories hoch (einschliesslich .github/workflows/build-nds.yml).
+3. Oeffne in GitHub den Reiter "Actions" und starte "Build Sky Dash DS"
+   oder pushe eine Aenderung.
+4. Nach erfolgreichem Lauf findest du unter "Artifacts" das Paket
+   "Sky-Dash-NDS". Darin liegt skydash.nds.
+
+Der Workflow verwendet das offizielle devkitPro-devkitARM-Containerimage.
+Der Build laesst die Leveldateien vor dem Kompilieren automatisch neu
+uebersetzen.
+
+LOKAL BAUEN
+-----------
+1. devkitPro installieren: https://devkitpro.org/wiki/Getting_Started
+   Dabei die NDS-Entwicklungsgruppe (devkitARM, libnds und ndstool) installieren.
+2. Terminal im Projektordner oeffnen und ausfuehren:
+       sh build_levels.sh
+       make
+3. Die fertige Datei heisst skydash.nds.
+
+STEUERUNG
+---------
+A / B / X / Y / Steuerkreuz oben / Touchscreen = springen
+(Gedrueckt halten = entsprechend der Spielart weiter springen/steigen)
+Menue:   Steuerkreuz = Level waehlen, A = starten
+Spiel:   START = zurueck ins Menue, SELECT = Neustart
+
+EIGENE LEVEL
+------------
+Die Levelbefehle sind dieselben wie in der Web-Version (siehe tools/leveltool.cpp).
+1. Datei in levels/ bearbeiten oder neue anlegen.
+2. build_levels.sh (Mac/Linux) oder build_levels.bat (Windows) ausfuehren.
+3. make bzw. den GitHub-Workflow starten.
+
+WAS AUF DEM DS/DSi ABWEICHT
+---------------------------
+- Die Simulation verwendet dieselben 240-Hz-Physikschritte (vier pro 60-Hz-
+  Bild), dieselben Bewegungswerte, Trigger und Kollisionsregeln wie die
+  Browser-Physik. Die Leveldateien sind bytegenau die gleichen.
+- Die Grafik ist fuer den DS-Bildschirm (256x192, 15-Bit-Farbe) umgesetzt.
+  Deshalb kann sie nicht pixelgenau wie ein skalierbares Browser-Canvas mit
+  Glow-/Gradient-Effekten aussehen; Farben, Formen, Levelobjekte und Tempo
+  sind soweit auf der Hardware moeglich angeglichen.
+- Der DS-Sound wird auf der DS-Soundhardware synthetisiert und klingt daher
+  nicht identisch zur Browser-Audioausgabe.
+- Browser-Funktionen wie Online-Modus, Uebungsmodus, Icon-Garage und Speichern
+  von Bestwerten auf der Karte sind in diesem DS-Port nicht enthalten.
+
+DSi-HINWEIS
+-----------
+skydash.nds ist ein normales Nintendo-DS-Homebrewprogramm. Auf einem DSi
+laeuft es im DS-Kompatibilitaetsmodus (z. B. ueber eine geeignete Flashkarte
+oder einen Homebrew-Loader). Es ist keine native DSiWare-/TWL-Anwendung und
+wird bewusst als .nds-Datei gebaut.
