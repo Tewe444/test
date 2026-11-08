@@ -11,16 +11,21 @@ static bool levelExitLoaded = false;
 
 bool audioInit(void) {
     /* NitroFS is initialized by main.c before this call. */
-    audioReady = mmInitDefault("nitro:/soundbank.bin");
-    if (!audioReady) return false;
+    mmInitDefault("nitro:/soundbank.bin");
+    audioReady = true;
 
     mmSetModuleVolume(880); /* Maxmod volume scale: 1024 is normal. */
     mmSetEffectsVolume(880);
 
-    explosionLoaded = (mmLoadEffect(SFX_EXPLOSION) == 0);
-    levelCompleteLoaded = (mmLoadEffect(SFX_LEVEL_COMPLETE) == 0);
-    levelEnterLoaded = (mmLoadEffect(SFX_LEVEL_ENTER) == 0);
-    levelExitLoaded = (mmLoadEffect(SFX_LEVEL_EXIT) == 0);
+    /* These Maxmod functions return void, so success cannot be checked here. */
+    mmLoadEffect(SFX_EXPLOSION);
+    explosionLoaded = true;
+    mmLoadEffect(SFX_LEVEL_COMPLETE);
+    levelCompleteLoaded = true;
+    mmLoadEffect(SFX_LEVEL_ENTER);
+    levelEnterLoaded = true;
+    mmLoadEffect(SFX_LEVEL_EXIT);
+    levelExitLoaded = true;
     return true;
 }
 
@@ -34,8 +39,8 @@ void audioPlay(int moduleId) {
         currentModule = -1;
     }
 
-    /* mmLoad returns zero on success; don't start a module that failed to load. */
-    if (mmLoad((mm_word)moduleId) != 0) return;
+    /* mmLoad returns void; load the module, then start playback. */
+    mmLoad((mm_word)moduleId);
     mmStart((mm_word)moduleId, MM_PLAY_LOOP);
     currentModule = moduleId;
 }
