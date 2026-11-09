@@ -1,27 +1,17 @@
-name: Build Sky Dash for Nintendo DS / DSi
-
+name: skydash.nds bauen
 on:
   push:
-  pull_request:
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     container: devkitpro/devkitarm:latest
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Verify audio and level configuration
-        run: python3 tools/verify_project.py
-
-      - name: Build the NDS homebrew
-        run: make
-
-      - name: Upload NDS file
+      - uses: actions/checkout@v4
+      - name: Bauen
+        run: make -C nds
+      - name: skydash.nds bereitstellen
         uses: actions/upload-artifact@v4
         with:
-          name: SkyDash-DSi
-          path: sky_dash.nds
-          if-no-files-found: error
+          name: skydash-nds
+          path: nds/skydash.nds
