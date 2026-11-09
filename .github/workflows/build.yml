@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bauen
-        run: make -C nds
+        run: make
       - name: skydash.nds bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: skydash-nds
-          path: nds/skydash.nds
+          path: skydash.nds
