@@ -1,4 +1,4 @@
-name: NightFox's.nds bauen
+name: skydash.nds bauen
 on:
   push:
   workflow_dispatch:
@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bauen
-        run: make
+        run: make -C nds
       - name: skydash.nds bereitstellen
         uses: actions/upload-artifact@v4
         with:
-          name: NightFox's-nds
-          path: NightFox's.nds
+          name: skydash-nds
+          path: nds/skydash.nds
